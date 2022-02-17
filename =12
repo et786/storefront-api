@@ -1,0 +1,8 @@
+[?25l[?1049h[22;0;0t[H[2J[3J
+  ο node/10.18.0
+    node/12.0.0
+    node/16.0.0
+    node/16.10.0
+    node/16.13.2
+
+Use up/down arrow keys to select a version, return key to install, d to delete, q to quit[?12l[?25h[?1049l[23;0;0t   installed : v10.18.0 (with npm 6.13.4)
