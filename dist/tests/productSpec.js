@@ -38,11 +38,51 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var product_1 = require("../models/product");
 var store = new product_1.ProductStore();
-describe("Index of products", function () {
-    it("should exist", function () {
+describe("Prodcuts", function () {
+    it("method 'store.index' should exist", function () {
         expect(store.index).toBeDefined();
     });
-    it("should return an array of products", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("method 'store.show' should exist", function () {
+        expect(store.show).toBeDefined();
+    });
+    it("method 'store.create' should exist", function () {
+        expect(store.create).toBeDefined();
+    });
+    it("'store.create' should create a product record", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.create({
+                        name: "1 bunch of bananas",
+                        category: "food",
+                        price: 1.50
+                    })];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toEqual({
+                        id: 1,
+                        name: "1 bunch of bananas",
+                        category: "food",
+                        price: 1.50,
+                    });
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("'store.show' should show product of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, store.show("1")];
+                case 1:
+                    result = _a.sent();
+                    console.log(result);
+                    expect(result).toEqual({ id: 1, name: '1 bunch of bananas', price: 1.5, category: 'food' });
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("'store.index' should return an array of products", function () { return __awaiter(void 0, void 0, void 0, function () {
         var result, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -51,8 +91,12 @@ describe("Index of products", function () {
                     return [4 /*yield*/, store.index()];
                 case 1:
                     result = _a.sent();
-                    console.log(result);
-                    expect(result).toEqual([]);
+                    expect(result).toEqual([{
+                            id: 1,
+                            name: "1 bunch of bananas",
+                            category: "food",
+                            price: 1.50,
+                        }]);
                     return [3 /*break*/, 3];
                 case 2:
                     error_1 = _a.sent();
@@ -62,25 +106,21 @@ describe("Index of products", function () {
             }
         });
     }); });
-});
-describe("Show products", function () {
-    it("should have method show", function () {
-        expect(store.show).toBeDefined();
-    });
-    it("should have method create", function () {
-        expect(store.create).toBeDefined();
-    });
-    it("should have method delete", function () {
+    it("method 'store.delete' should exist", function () {
         expect(store.delete).toBeDefined();
     });
-});
-describe("Create product", function () {
-    it("should have method create", function () {
-        expect(store.create).toBeDefined();
-    });
-});
-describe("Delete product", function () {
-    it("should have method delete", function () {
-        expect(store.delete).toBeDefined();
-    });
+    it("'store.delete' should delete product of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    store.delete("1");
+                    return [4 /*yield*/, store.index()];
+                case 1:
+                    result = _a.sent();
+                    expect(result).toEqual([]);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
 });

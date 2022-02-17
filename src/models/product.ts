@@ -1,12 +1,10 @@
 import Client from "../database";
 
 export type Product = {
-  id: number;
+  id?: Number;
   name: string;
   category: string;
-  description: string;
   price: number;
-  available: boolean;
 };
 
 export class ProductStore {
@@ -45,16 +43,14 @@ export class ProductStore {
   async create(p: Product): Promise<Product> {
     try {
       const sql =
-        "INSERT INTO products (name, category, description, price, available) VALUES($1, $2, $3, $4, $5) RETURNING *";
+        "INSERT INTO products (name, category, price) VALUES($1, $2, $3) RETURNING *";
       // @ts-ignore
       const conn = await Client.connect();
 
       const result = await conn.query(sql, [
         p.name,
         p.category,
-        p.description,
         p.price,
-        p.available,
       ]);
 
       const product = result.rows[0];

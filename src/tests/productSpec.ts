@@ -2,44 +2,63 @@ import { Product, ProductStore } from "../models/product";
 
 const store = new ProductStore();
 
-describe("Index of products", () => {
-  it("should exist", () => {
+describe("Prodcuts", () => {
+  it("method 'store.index' should exist", () => {
     expect(store.index).toBeDefined();
   });
 
-  it("should return an array of products", async () => {
+
+  it("method 'store.show' should exist", () => {
+    expect(store.show).toBeDefined();
+  });
+
+
+  it("method 'store.create' should exist", () => {
+    expect(store.create).toBeDefined();
+  });
+
+  it("'store.create' should create a product record", async () => {
+    const result = await store.create({
+        name: "1 bunch of bananas",
+        category: "food",
+        price: 1.50
+    });
+    expect(result).toEqual({
+        id: 1,
+        name: "1 bunch of bananas",
+        category: "food",
+        price: 1.50,
+    });
+  });
+
+  it("'store.show' should show product of id 1", async () => {
+    const result = await store.show("1");
+    console.log(result)
+    expect(result).toEqual({ id: 1, name: '1 bunch of bananas', price: 1.5, category: 'food' });
+  });
+
+
+  it("'store.index' should return an array of products", async () => {
     try {
       const result = await store.index();
-      // console.log(result);
-      expect(result).toEqual([]);
+      expect(result).toEqual([{
+        id: 1,
+        name: "1 bunch of bananas",
+        category: "food",
+        price: 1.50,
+    }]);
     } catch (error) {
       console.log(error);
     }
   });
-});
 
-describe("Show products", () => {
-  it("should have method show", () => {
-    expect(store.show).toBeDefined();
-  });
-
-  it("should have method create", () => {
-    expect(store.create).toBeDefined();
-  });
-
-  it("should have method delete", () => {
+  it("method 'store.delete' should exist", () => {
     expect(store.delete).toBeDefined();
   });
-});
 
-describe("Create product", () => {
-  it("should have method create", () => {
-    expect(store.create).toBeDefined();
-  });
-});
-
-describe("Delete product", () => {
-  it("should have method delete", () => {
-    expect(store.delete).toBeDefined();
+  it("'store.delete' should delete product of id 1", async () => {
+    store.delete("1");
+    const result = await store.index();
+    expect(result).toEqual([]);
   });
 });
