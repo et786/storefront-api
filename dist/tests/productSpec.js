@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var order_1 = require("../models/order");
-var store = new order_1.OrderStore();
-describe("Model for Orders", function () {
+var product_1 = require("../models/product");
+var store = new product_1.ProductStore();
+describe("Model for Products", function () {
     it("method 'store.index' should exist", function () {
         expect(store.index).toBeDefined();
     });
@@ -51,44 +51,40 @@ describe("Model for Orders", function () {
     it("method 'store.delete' should exist", function () {
         expect(store.delete).toBeDefined();
     });
-    it("'store.create' should create an order record", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("'store.create' should create a product record", function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, store.create({
-                        id: 1,
-                        status: "active",
-                        user_id: 1
+                        name: "1 bunch of bananas",
+                        category: "food",
+                        price: 1.50
                     })];
                 case 1:
                     result = _a.sent();
                     expect(result).toEqual({
                         id: 1,
-                        status: "active",
-                        user_id: 1
+                        name: "1 bunch of bananas",
+                        category: "food",
+                        price: 1.50,
                     });
                     return [2 /*return*/];
             }
         });
     }); });
-    it("'store.show' should show order of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("'store.show' should show product of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, store.show("1")];
                 case 1:
                     result = _a.sent();
-                    console.log(result);
-                    expect(result).toEqual({
-                        id: 1,
-                        status: "active",
-                        user_id: 1
-                    });
+                    expect(result).toEqual({ id: 1, name: '1 bunch of bananas', price: 1.5, category: 'food' });
                     return [2 /*return*/];
             }
         });
     }); });
-    it("'store.index' should return an array of orders", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("'store.index' should return an array of products", function () { return __awaiter(void 0, void 0, void 0, function () {
         var result, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -99,8 +95,9 @@ describe("Model for Orders", function () {
                     result = _a.sent();
                     expect(result).toEqual([{
                             id: 1,
-                            status: "active",
-                            user_id: 1
+                            name: "1 bunch of bananas",
+                            category: "food",
+                            price: 1.50,
                         }]);
                     return [3 /*break*/, 3];
                 case 2:
@@ -111,7 +108,7 @@ describe("Model for Orders", function () {
             }
         });
     }); });
-    it("'store.delete' should delete order of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
+    it("'store.delete' should delete product of id 1", function () { return __awaiter(void 0, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {

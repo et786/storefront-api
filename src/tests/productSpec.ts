@@ -26,11 +26,8 @@ describe("Model for Products", () => {
         category: "food",
         price: 1.50
     });
-
-    const resultID= parseInt(`${Number(result.id)}`)
-
     expect(result).toEqual({
-        id: 2,
+        id: 1,
         name: "1 bunch of bananas",
         category: "food",
         price: 1.50,
