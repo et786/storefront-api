@@ -99,10 +99,36 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
         }
     });
 }); };
+var addProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orderId, userId, productId, addedProduct, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                orderId = _req.params.id;
+                userId = _req.body.user_id;
+                productId = _req.body.product_id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, store.addProduct(parseInt(orderId), userId, productId)];
+            case 2:
+                addedProduct = _a.sent();
+                res.json(addedProduct);
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _a.sent();
+                res.status(400);
+                res.json(err_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 var orderRoutes = function (app) {
     app.get('/orders', index);
     app.get('/orders/:id', show);
     app.post('/orders', create);
     app.delete('/orders', destroy);
+    app.post('/orders/:id/products', addProduct);
 };
 exports.default = orderRoutes;

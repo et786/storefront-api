@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ENV=test db-migrate up --env test && jasmine && db-migrate db:drop shopping_test",
+    "test": "ENV=test db-migrate up --env test && jasmine && db-migrate --env test reset",
     "build": "npx tsc",
     "jasmine": "jasmine",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'"

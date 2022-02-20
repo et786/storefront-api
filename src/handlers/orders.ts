@@ -31,15 +31,29 @@ const create = async (req: Request, res: Response) => {
 };
 
 const destroy = async (req: Request, res: Response) => {
-    const deleted = await store.delete(req.body.id)
-    res.json(deleted)
+    const deleted = await store.delete(req.body.id);
+    res.json(deleted);
 };
+
+const addProduct = async (_req: Request, res: Response) => {
+    const orderId = _req.params.id;
+    const userId = _req.body.user_id;
+    const productId = _req.body.product_id;
+    try {
+      const addedProduct = await store.addProduct(parseInt(orderId), userId, productId);
+      res.json(addedProduct)
+    } catch(err) {
+      res.status(400)
+      res.json(err)
+    }
+  } 
 
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', index);
   app.get('/orders/:id', show);
   app.post('/orders', create);
   app.delete('/orders', destroy);
+  app.post('/orders/:id/products', addProduct);
 }
 
 export default orderRoutes;
