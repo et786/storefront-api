@@ -112,10 +112,11 @@ describe("Model for Products", function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    store.delete("1");
-                    return [4 /*yield*/, store.index()];
+                case 0: return [4 /*yield*/, store.delete("1")];
                 case 1:
+                    _a.sent();
+                    return [4 /*yield*/, store.index()];
+                case 2:
                     result = _a.sent();
                     expect(result).toEqual([]);
                     return [2 /*return*/];

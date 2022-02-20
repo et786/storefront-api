@@ -1,7 +1,7 @@
 import {Order, OrderStore } from "../models/order";
 
 const store = new OrderStore();
-
+/*
 describe("Model for Orders", () => {
   it("method 'store.index' should exist", () => {
     expect(store.index).toBeDefined();
@@ -64,3 +64,4 @@ describe("Model for Orders", () => {
     expect(result).toEqual([]);
   });
 });
+*/

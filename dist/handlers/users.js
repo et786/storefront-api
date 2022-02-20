@@ -35,8 +35,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var user_1 = require("../models/user");
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var store = new user_1.UserStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
@@ -63,7 +67,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, newUser, err_1;
+    var user, newUser, token, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -78,7 +82,8 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, store.create(user)];
             case 1:
                 newUser = _a.sent();
-                res.json(newUser);
+                token = jsonwebtoken_1.default.sign({ user: newUser }, "".concat(process.env.TOKEN_SECRET));
+                res.json(token);
                 return [3 /*break*/, 3];
             case 2:
                 err_1 = _a.sent();
@@ -98,6 +103,35 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 deleted = _a.sent();
                 res.json(deleted);
                 return [2 /*return*/];
+        }
+    });
+}); };
+var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, u, token, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                user = {
+                    username: req.body.username,
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    password: req.body.password,
+                };
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, store.authenticate(user.username, user.password)];
+            case 2:
+                u = _a.sent();
+                token = jsonwebtoken_1.default.sign({ user: u }, "".concat(process.env.TOKEN_SECRET));
+                res.json(token);
+                return [3 /*break*/, 4];
+            case 3:
+                error_1 = _a.sent();
+                res.status(401);
+                res.json({ error: error_1 });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

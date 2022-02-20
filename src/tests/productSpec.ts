@@ -56,7 +56,7 @@ describe("Model for Products", () => {
 
 
   it("'store.delete' should delete product of id 1", async () => {
-    store.delete("1");
+    await store.delete("1");
     const result = await store.index();
     expect(result).toEqual([]);
   });
