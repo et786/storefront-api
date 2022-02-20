@@ -34,7 +34,7 @@ describe("Model for Orders", () => {
   });
 
   it("'store.show' should show order of id 1", async () => {
-    const result = await store.show("1");
+    const result = await store.show(1);
     console.log(result)
     expect(result).toEqual({
       id: 1,

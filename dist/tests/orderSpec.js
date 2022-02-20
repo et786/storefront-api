@@ -75,7 +75,7 @@ describe("Model for Orders", function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, store.show("1")];
+                case 0: return [4 /*yield*/, store.show(1)];
                 case 1:
                     result = _a.sent();
                     console.log(result);

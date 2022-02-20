@@ -23,7 +23,7 @@ export class OrderStore {
     }
   }
 
-  async show(id: string): Promise<Order> {
+  async show(id: number): Promise<Order> {
     try {
       const sql = "SELECT * FROM orders WHERE id=($1)";
       // @ts-ignore
@@ -47,9 +47,7 @@ export class OrderStore {
       const conn = await Client.connect();
 
       const result = await conn.query(sql, [
-        o.id,
-        o.status,
-        o.user_id
+        o.status
       ]);
 
       const order = result.rows[0];

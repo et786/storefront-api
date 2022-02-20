@@ -104,9 +104,7 @@ var OrderStore = /** @class */ (function () {
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [
-                                o.id,
-                                o.status,
-                                o.user_id
+                                o.status
                             ])];
                     case 2:
                         result = _a.sent();
