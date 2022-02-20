@@ -25,7 +25,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 -  id
 - name
 - price
-- [OPTIONAL] category
+- category
 
 #### User
 - id

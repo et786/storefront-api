@@ -41,6 +41,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserStore = void 0;
 var database_1 = __importDefault(require("../database"));
+var bcrypt_1 = __importDefault(require("bcrypt"));
+var saltRounds = process.env.SALT_ROUNDS;
+var pepper = process.env.BCRYPT_PASSWORD;
 var UserStore = /** @class */ (function () {
     function UserStore() {
     }
@@ -94,29 +97,25 @@ var UserStore = /** @class */ (function () {
     };
     UserStore.prototype.create = function (u) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, user, error_3;
+            var conn, sql, hash, result, user, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        sql = "INSERT INTO users (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *";
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        return [4 /*yield*/, conn.query(sql, [
-                                u.id,
-                                u.firstName,
-                                u.lastName,
-                                u.password
-                            ])];
+                        sql = 'INSERT INTO users (username, password_digest) VALUES($1, $2) RETURNING *';
+                        hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt("".concat(saltRounds)));
+                        return [4 /*yield*/, conn.query(sql, [u.username, hash])];
                     case 2:
                         result = _a.sent();
                         user = result.rows[0];
                         conn.release();
                         return [2 /*return*/, user];
                     case 3:
-                        error_3 = _a.sent();
-                        throw new Error("Cannot add new order $.id: #".concat(u.id, ". Error: ").concat(error_3));
+                        err_1 = _a.sent();
+                        throw new Error("unable create user (".concat(u.username, "): ").concat(err_1));
                     case 4: return [2 /*return*/];
                 }
             });
@@ -124,7 +123,7 @@ var UserStore = /** @class */ (function () {
     };
     UserStore.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var sql, conn, result, user, error_4;
+            var sql, conn, result, user, error_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -140,9 +139,34 @@ var UserStore = /** @class */ (function () {
                         conn.release();
                         return [2 /*return*/, user];
                     case 3:
-                        error_4 = _a.sent();
-                        throw new Error("Cannot delete order #".concat(id, ". Error: ").concat(error_4));
+                        error_3 = _a.sent();
+                        throw new Error("Cannot delete order #".concat(id, ". Error: ").concat(error_3));
                     case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserStore.prototype.authenticate = function (username, password) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, user;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'SELECT password FROM users WHERE username=($1)';
+                        return [4 /*yield*/, conn.query(sql, [username])];
+                    case 2:
+                        result = _a.sent();
+                        console.log(password + pepper);
+                        if (result.rows.length) {
+                            user = result.rows[0];
+                            console.log(user);
+                            if (bcrypt_1.default.compareSync(password + pepper, user.password_digest)) {
+                                return [2 /*return*/, user];
+                            }
+                        }
+                        return [2 /*return*/, null];
                 }
             });
         });

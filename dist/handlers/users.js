@@ -70,6 +70,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.trys.push([0, 2, , 3]);
                 user = {
                     id: req.body.id,
+                    username: req.body.username,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     password: req.body.password

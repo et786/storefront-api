@@ -18,6 +18,7 @@ const create = async (req: Request, res: Response) => {
     try {
         const user: User = {
             id: req.body.id,
+            username: req.body.username,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             password: req.body.password

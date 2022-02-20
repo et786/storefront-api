@@ -1,7 +1,13 @@
 import Client from "../database";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+const saltRounds = process.env.SALT_ROUNDS;
+const pepper = process.env.BCRYPT_PASSWORD;
 
 export type User = {
   id?: Number;
+  username: string;
   firstName: string;
   lastName: string;
   password: string;
@@ -42,26 +48,24 @@ export class UserStore {
 
   async create(u: User): Promise<User> {
     try {
-      const sql =
-        "INSERT INTO users (firstName, lastName, password) VALUES($1, $2, $3) RETURNING *";
       // @ts-ignore
-      const conn = await Client.connect();
+      const conn = await Client.connect()
+      const sql = 'INSERT INTO users (username, password_digest) VALUES($1, $2) RETURNING *'
 
-      const result = await conn.query(sql, [
-        u.id,
-        u.firstName,
-        u.lastName,
-        u.password
-      ]);
+      const hash = bcrypt.hashSync(
+        u.password + pepper, 
+        parseInt(`${saltRounds}`)
+      );
 
-      const user = result.rows[0];
+      const result = await conn.query(sql, [u.username, hash])
+      const user = result.rows[0]
 
-      conn.release();
+      conn.release()
 
-      return user;
-    } catch (error) {
-      throw new Error(`Cannot add new order $.id: #${u.id}. Error: ${error}`);
-    }
+      return user
+    } catch(err) {
+      throw new Error(`unable create user (${u.username}): ${err}`)
+    } 
   }
 
   async delete(id: string): Promise<User> {
@@ -82,6 +86,27 @@ export class UserStore {
     }
   }
 
- 
+  async authenticate(username: string, password: string): Promise<User | null> {
+    const conn = await Client.connect()
+    const sql = 'SELECT password FROM users WHERE username=($1)'
+
+    const result = await conn.query(sql, [username])
+
+    console.log(password+pepper)
+
+    if(result.rows.length) {
+
+      const user = result.rows[0]
+
+      console.log(user)
+
+      if (bcrypt.compareSync(password+pepper, user.password_digest)) {
+        return user
+      }
+    }
+
+    return null
+  }
+
 
 }
