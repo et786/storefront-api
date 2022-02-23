@@ -1,9 +1,9 @@
 import Client from "../database";
 
 export type Order = {
-  id?: Number;
+  id: Number;
   status: string;
-  user_id?: Number;
+  user_id: Number;
 };
 
 export class OrderStore {

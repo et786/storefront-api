@@ -135,10 +135,36 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+var addOrder = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var quantity, orderId, userId, addedProduct, err_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                quantity = _req.params.quantity;
+                orderId = _req.params.id;
+                userId = _req.body.user_id;
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, store.addOrder(parseInt(quantity), userId, orderId)];
+            case 2:
+                addedProduct = _a.sent();
+                res.json(addedProduct);
+                return [3 /*break*/, 4];
+            case 3:
+                err_2 = _a.sent();
+                res.status(400);
+                res.json(err_2);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
 var userRoutes = function (app) {
     app.get('/users', index);
     app.get('/users/:id', show);
     app.post('/users', create);
     app.delete('/users', destroy);
+    app.post('/users/:id/orders/', addOrder);
 };
 exports.default = userRoutes;

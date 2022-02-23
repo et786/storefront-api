@@ -54,13 +54,27 @@ const authenticate = async (req: Request, res: Response) => {
         res.status(401)
         res.json({ error })
     }
-  }
+}
+
+const addOrder = async (_req: Request, res: Response) => {
+    const quantity = _req.params.quantity;
+    const orderId = _req.params.id;
+    const userId = _req.body.user_id;
+    try {
+      const addedProduct = await store.addOrder(parseInt(quantity), userId, orderId);
+      res.json(addedProduct)
+    } catch(err) {
+      res.status(400)
+      res.json(err)
+    }
+} 
 
 const userRoutes = (app: express.Application) => {
   app.get('/users', index);
   app.get('/users/:id', show);
   app.post('/users', create);
   app.delete('/users', destroy);
+  app.post('/users/:id/orders/', addOrder);
 }
 
 export default userRoutes;

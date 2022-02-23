@@ -1,5 +1,4 @@
 import express from "express";
-//import router from "./routes/router";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import productRoutes from "./handlers/products";

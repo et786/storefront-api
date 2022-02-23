@@ -105,9 +105,9 @@ var UserStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO users (username, password_digest) VALUES($1, $2) RETURNING *';
+                        sql = 'INSERT INTO users (username, firstName, lastName, password) VALUES($1, $2, $3, $4) RETURNING *';
                         hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt("".concat(saltRounds)));
-                        return [4 /*yield*/, conn.query(sql, [u.username, hash])];
+                        return [4 /*yield*/, conn.query(sql, [u.username, u.firstName, u.lastName, hash])];
                     case 2:
                         result = _a.sent();
                         user = result.rows[0];
@@ -141,6 +141,31 @@ var UserStore = /** @class */ (function () {
                     case 3:
                         error_3 = _a.sent();
                         throw new Error("Cannot delete order #".concat(id, ". Error: ").concat(error_3));
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    UserStore.prototype.addOrder = function (quantity, userId, orderId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var sql, conn, result, user, err_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        sql = 'INSERT INTO user_orders (quantity, user_id, order_id) VALUES($1, $2, $3) RETURNING *';
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        return [4 /*yield*/, conn.query(sql, [quantity, userId, orderId])];
+                    case 2:
+                        result = _a.sent();
+                        user = result.rows[0];
+                        conn.release();
+                        return [2 /*return*/, user];
+                    case 3:
+                        err_2 = _a.sent();
+                        throw new Error("Could not add order ".concat(orderId, " to user ").concat(userId, ". Error: ").concat(err_2));
                     case 4: return [2 /*return*/];
                 }
             });

@@ -41,12 +41,12 @@ const addProduct = async (_req: Request, res: Response) => {
     const productId = _req.body.product_id;
     try {
       const addedProduct = await store.addProduct(parseInt(orderId), userId, productId);
-      res.json(addedProduct)
+      res.json(addedProduct);
     } catch(err) {
-      res.status(400)
-      res.json(err)
+      res.status(400);
+      res.json(err);
     }
-  } 
+} 
 
 const orderRoutes = (app: express.Application) => {
   app.get('/orders', index);

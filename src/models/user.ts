@@ -50,14 +50,14 @@ export class UserStore {
     try {
       // @ts-ignore
       const conn = await Client.connect();
-      const sql = 'INSERT INTO users (username, password_digest) VALUES($1, $2) RETURNING *';
+      const sql = 'INSERT INTO users (username, firstName, lastName, password) VALUES($1, $2, $3, $4) RETURNING *';
 
       const hash = bcrypt.hashSync(
         u.password + pepper, 
         parseInt(`${saltRounds}`)
       );
 
-      const result = await conn.query(sql, [u.username, hash]);
+      const result = await conn.query(sql, [u.username, u.firstName, u.lastName, hash]);
       const user = result.rows[0];
 
       conn.release();
@@ -83,6 +83,21 @@ export class UserStore {
       return user;
     } catch (error) {
       throw new Error(`Cannot delete order #${id}. Error: ${error}`);
+    }
+  }
+
+
+  async addOrder(quantity: number, userId: string, orderId: string): Promise<User>{
+    try {
+      const sql = 'INSERT INTO user_orders (quantity, user_id, order_id) VALUES($1, $2, $3) RETURNING *';
+      //@ts-ignore
+      const conn = await Client.connect();
+      const result = await conn.query(sql, [quantity, userId, orderId]);
+      const user = result.rows[0];
+      conn.release();
+      return user;
+    } catch (err) {
+      throw new Error(`Could not add order ${orderId} to user ${userId}. Error: ${err}`);
     }
   }
 

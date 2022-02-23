@@ -7,7 +7,6 @@ describe("Model for Products", () => {
     expect(store.index).toBeDefined();
   });
 
-
   it("method 'store.show' should exist", () => {
     expect(store.show).toBeDefined();
   });
@@ -48,7 +47,7 @@ describe("Model for Products", () => {
         name: "1 bunch of bananas",
         category: "food",
         price: 1.50,
-    }]);
+      }]);
     } catch (error) {
       console.log(error);
     }

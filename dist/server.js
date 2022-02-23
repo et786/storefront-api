@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-//import router from "./routes/router";
 var body_parser_1 = __importDefault(require("body-parser"));
 var products_1 = __importDefault(require("./handlers/products"));
 var orders_1 = __importDefault(require("./handlers/orders"));
