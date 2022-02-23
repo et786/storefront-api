@@ -37,21 +37,20 @@ describe("Model for Orders", () => {
       password: "ilovemath71" 
     });
     
-    const orderResult = await orderStore.create({
+    const userOrdersResult = await userStore.addOrder(1, "1", "2");
+
+
+
+    console.log(userOrdersResult);
+   
+
+    expect(userOrdersResult).toEqual(
+      {
         id: 1,
-        status: "active",
-        user_id: 1 
-    });
-
-
-    console.log(userResult);
-    console.log(orderResult);
-
-    expect(orderResult).toEqual({
-        id: 1,
-        status: "active",
-        user_id: 1
-    });
+        user_id: 1,
+        order_id: 2
+      }
+    );
   });
 
   it("'store.show' should show order of id 1", async () => {

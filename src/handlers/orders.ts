@@ -49,11 +49,13 @@ const addProduct = async (_req: Request, res: Response) => {
 } 
 
 const orderRoutes = (app: express.Application) => {
+  const root = '/user';
   app.get('/orders', index);
-  app.get('/orders/:id', show);
+  app.get(`/orders/:id`, show);
   app.post('/orders', create);
   app.delete('/orders', destroy);
   app.post('/orders/:id/products', addProduct);
+  app.get('/orders/:id/products', index);
 }
 
 export default orderRoutes;
