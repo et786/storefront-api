@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var order_1 = require("../models/order");
 var store = new order_1.OrderStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -91,7 +91,7 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     var deleted;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store["delete"](req.body.id)];
+            case 0: return [4 /*yield*/, store.delete(req.body.id)];
             case 1:
                 deleted = _a.sent();
                 res.json(deleted);
@@ -125,11 +125,12 @@ var addProduct = function (_req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 var orderRoutes = function (app) {
+    var root = '/user';
     app.get('/orders', index);
-    app.get('/orders/:id', show);
+    app.get("/orders/:id", show);
     app.post('/orders', create);
-    app["delete"]('/orders', destroy);
+    app.delete('/orders', destroy);
     app.post('/orders/:id/products', addProduct);
     app.get('/orders/:id/products', index);
 };
-exports["default"] = orderRoutes;
+exports.default = orderRoutes;

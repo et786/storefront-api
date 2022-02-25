@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserStore = void 0;
 var database_1 = __importDefault(require("../database"));
 var bcrypt_1 = __importDefault(require("bcrypt"));
@@ -54,7 +54,7 @@ var UserStore = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         sql = "SELECT * FROM users";
@@ -79,7 +79,7 @@ var UserStore = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = "SELECT * FROM users WHERE id=($1)";
-                        return [4 /*yield*/, database_1["default"].connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [id])];
@@ -102,11 +102,11 @@ var UserStore = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, database_1["default"].connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         sql = 'INSERT INTO users (username, firstName, lastName, password) VALUES($1, $2, $3, $4) RETURNING *';
-                        hash = bcrypt_1["default"].hashSync(u.password + pepper, parseInt("".concat(saltRounds)));
+                        hash = bcrypt_1.default.hashSync(u.password + pepper, parseInt("".concat(saltRounds)));
                         return [4 /*yield*/, conn.query(sql, [u.username, u.firstName, u.lastName, hash])];
                     case 2:
                         result = _a.sent();
@@ -121,7 +121,7 @@ var UserStore = /** @class */ (function () {
             });
         });
     };
-    UserStore.prototype["delete"] = function (id) {
+    UserStore.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var sql, conn, result, user, error_3;
             return __generator(this, function (_a) {
@@ -129,7 +129,7 @@ var UserStore = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = "DELETE FROM users WHERE id=($1)";
-                        return [4 /*yield*/, database_1["default"].connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [id])];
@@ -154,7 +154,7 @@ var UserStore = /** @class */ (function () {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
                         sql = 'INSERT INTO user_orders (quantity, user_id, order_id) VALUES($1, $2, $3) RETURNING *';
-                        return [4 /*yield*/, database_1["default"].connect()];
+                        return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         return [4 /*yield*/, conn.query(sql, [quantity, userId, orderId])];
@@ -176,7 +176,7 @@ var UserStore = /** @class */ (function () {
             var conn, sql, result, user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, database_1["default"].connect()];
+                    case 0: return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
                         sql = 'SELECT password FROM users WHERE username=($1)';
@@ -187,7 +187,7 @@ var UserStore = /** @class */ (function () {
                         if (result.rows.length) {
                             user = result.rows[0];
                             console.log(user);
-                            if (bcrypt_1["default"].compareSync(password + pepper, user.password_digest)) {
+                            if (bcrypt_1.default.compareSync(password + pepper, user.password_digest)) {
                                 return [2 /*return*/, user];
                             }
                         }

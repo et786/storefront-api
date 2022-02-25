@@ -53,8 +53,8 @@ describe("Model for Orders", function () {
     it("method 'store.delete' should exist", function () {
         expect(orderStore.delete).toBeDefined();
     });
-    it("'store.create' should create an order record tied to user with user_1 = 1", function () { return __awaiter(void 0, void 0, void 0, function () {
-        var userResult, orderResult;
+    it("'store.create' should create an order record tied to user and store it in user_orders table", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var userResult, userOrdersResult;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, userStore.create({
@@ -65,20 +65,11 @@ describe("Model for Orders", function () {
                     })];
                 case 1:
                     userResult = _a.sent();
-                    return [4 /*yield*/, orderStore.create({
-                            id: 1,
-                            status: "active",
-                            user_id: 1
-                        })];
+                    return [4 /*yield*/, userStore.addOrder(1, "1", "2")];
                 case 2:
-                    orderResult = _a.sent();
-                    console.log(userResult);
-                    console.log(orderResult);
-                    expect(orderResult).toEqual({
-                        id: 1,
-                        status: "active",
-                        user_id: 1
-                    });
+                    userOrdersResult = _a.sent();
+                    console.log(userOrdersResult);
+                    expect(userOrdersResult.id).toEqual(1);
                     return [2 /*return*/];
             }
         });

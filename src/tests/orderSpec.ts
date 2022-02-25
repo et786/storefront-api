@@ -28,7 +28,7 @@ describe("Model for Orders", () => {
 
   
 
-  it("'store.create' should create an order record tied to user with user_1 = 1", async () => {
+  it("'store.create' should create an order record tied to user and store it in user_orders table", async () => {
 
     const userResult = await userStore.create({
       username: "atsyed94", 
@@ -39,18 +39,10 @@ describe("Model for Orders", () => {
     
     const userOrdersResult = await userStore.addOrder(1, "1", "2");
 
-
-
     console.log(userOrdersResult);
    
 
-    expect(userOrdersResult).toEqual(
-      {
-        id: 1,
-        user_id: 1,
-        order_id: 2
-      }
-    );
+    expect(userOrdersResult.id).toEqual(1);
   });
 
   it("'store.show' should show order of id 1", async () => {
