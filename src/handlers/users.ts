@@ -1,10 +1,17 @@
 import express, { Request, Response } from 'express'
 import { User, UserStore } from '../models/user';
+import { Order, OrderStore } from '../models/order';
 import jwt from "jsonwebtoken";
 
 const store = new UserStore();
+const orderStore = new OrderStore();
 
 const index = async (_req: Request, res: Response) => {
+    const userOrders = await orderStore.index;
+    res.json(userOrders);
+};
+
+const userOrderIndex = async (_req: Request, res: Response) => {
     const users = await store.index();
     res.json(users);
 };
@@ -75,6 +82,7 @@ const userRoutes = (app: express.Application) => {
   app.post('/users', create);
   app.delete('/users', destroy);
   app.post('/users/:id/orders', addOrder);
+  app.get('/users/:id/orders', index);
 }
 
 export default userRoutes;

@@ -5,7 +5,7 @@ export type Order = {
   status: string;
   user_id: Number;
 };
-
+ 
 export class OrderStore {
   async index(): Promise<Order[]> {
     try {

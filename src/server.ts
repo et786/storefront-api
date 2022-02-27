@@ -11,6 +11,7 @@ const address = `0.0.0.0:${port}`;
 
 // Server middleware
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Handler initialization for products, orders, and users
 

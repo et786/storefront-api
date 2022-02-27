@@ -38,11 +38,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var user_1 = require("../models/user");
+var order_1 = require("../models/order");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var store = new user_1.UserStore();
+var orderStore = new order_1.OrderStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userOrders;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, orderStore.index];
+            case 1:
+                userOrders = _a.sent();
+                res.json(userOrders);
+                return [2 /*return*/];
+        }
+    });
+}); };
+var userOrderIndex = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -82,7 +96,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 return [4 /*yield*/, store.create(user)];
             case 1:
                 newUser = _a.sent();
-                token = jsonwebtoken_1.default.sign({ user: newUser }, "".concat(process.env.TOKEN_SECRET));
+                token = jsonwebtoken_1["default"].sign({ user: newUser }, "".concat(process.env.TOKEN_SECRET));
                 res.json(token);
                 return [3 /*break*/, 3];
             case 2:
@@ -98,7 +112,7 @@ var destroy = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     var deleted;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store.delete(req.body.id)];
+            case 0: return [4 /*yield*/, store["delete"](req.body.id)];
             case 1:
                 deleted = _a.sent();
                 res.json(deleted);
@@ -115,7 +129,7 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                     username: req.body.username,
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
-                    password: req.body.password,
+                    password: req.body.password
                 };
                 _a.label = 1;
             case 1:
@@ -123,7 +137,7 @@ var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, store.authenticate(user.username, user.password)];
             case 2:
                 u = _a.sent();
-                token = jsonwebtoken_1.default.sign({ user: u }, "".concat(process.env.TOKEN_SECRET));
+                token = jsonwebtoken_1["default"].sign({ user: u }, "".concat(process.env.TOKEN_SECRET));
                 res.json(token);
                 return [3 /*break*/, 4];
             case 3:
@@ -164,7 +178,8 @@ var userRoutes = function (app) {
     app.get('/users', index);
     app.get('/users/:id', show);
     app.post('/users', create);
-    app.delete('/users', destroy);
+    app["delete"]('/users', destroy);
     app.post('/users/:id/orders', addOrder);
+    app.get('/users/:id/orders', index);
 };
-exports.default = userRoutes;
+exports["default"] = userRoutes;
